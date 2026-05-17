@@ -1,0 +1,44 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  current?: string;
+  /** Optional URL to preload above-the-fold hero image. */
+  preloadImage?: string;
+}
+
+const { title, description, current, preloadImage } = Astro.props;
+const fullTitle = title === 'Plate Notes' ? title : `${title} · Plate Notes`;
+const desc = description ?? 'Honest weekly meal plans, real recipes, and a shopping list that fits a normal Sunday afternoon.';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#586c45" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={desc} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {preloadImage && (
+      <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />
+    )}
+  </head>
+  <body class="min-h-screen text-ink">
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <Header current={current} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

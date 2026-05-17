@@ -1,0 +1,46 @@
+---
+const { current } = Astro.props as { current?: string };
+const nav = [
+  { href: '/', label: 'Home', key: 'home' },
+  { href: '/plan', label: 'Weekly Plan', key: 'plan' },
+  { href: '/recipes', label: 'Recipes', key: 'recipes' },
+  { href: '/shopping-list', label: 'Shopping List', key: 'shopping' },
+  { href: '/about', label: 'About', key: 'about' },
+];
+---
+
+<header class="border-b border-sage-100/80 bg-cream-50/95 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl flex-col items-stretch gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-5">
+    <a href="/" class="flex items-center gap-2.5 text-ink no-underline" aria-label="Plate Notes — home">
+      <span aria-hidden="true" class="inline-flex h-9 w-9 flex-none items-center justify-center rounded-full bg-sage-600 text-cream-50">
+        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3c-3 4-3 9 0 13" />
+          <path d="M12 3c3 4 3 9 0 13" />
+          <path d="M9 18h6" />
+          <path d="M10 21h4" />
+        </svg>
+      </span>
+      <span class="whitespace-nowrap text-xl font-semibold tracking-tight">Plate Notes</span>
+    </a>
+    <nav aria-label="Primary" class="-mx-1 overflow-x-auto">
+      <ul class="flex items-center gap-1 px-1 text-sm">
+        {nav.map((item) => (
+          <li class="flex-none">
+            <a
+              href={item.href}
+              aria-current={current === item.key ? 'page' : undefined}
+              class:list={[
+                'inline-block whitespace-nowrap rounded-full px-3.5 py-2 transition-colors',
+                current === item.key
+                  ? 'bg-sage-600 text-cream-50'
+                  : 'text-ink-soft hover:bg-sage-100 hover:text-ink',
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>

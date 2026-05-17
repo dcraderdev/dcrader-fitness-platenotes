@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro';
+import { weeklyPlan, weekRange } from '../data/plan';
+import { recipesBySlug } from '../data/recipes';
+
+const slots = ['breakfast', 'lunch', 'dinner'] as const;
+
+let totalCalories = 0;
+let totalProtein = 0;
+let totalCarbs = 0;
+let totalFat = 0;
+let mealCount = 0;
+for (const day of weeklyPlan) {
+  for (const slot of slots) {
+    const slug = day.meals[slot];
+    if (!slug) continue;
+    const r = recipesBySlug.get(slug);
+    if (!r) continue;
+    totalCalories += r.macros.calories;
+    totalProtein  += r.macros.protein;
+    totalCarbs    += r.macros.carbs;
+    totalFat      += r.macros.fat;
+    mealCount++;
+  }
+}
+const cookingDays = weeklyPlan.filter((d) => Object.values(d.meals).some(Boolean)).length;
+const avgDayCals = Math.round(totalCalories / cookingDays);
+---
+
+<Base title="Weekly Plan" current="plan" description={`The Plate Notes meal plan for ${weekRange} — breakfast, lunch, and dinner for the week.`}>
+  <section class="border-b border-sage-100 bg-cream-100">
+    <div class="mx-auto max-w-6xl px-6 py-14 md:py-20">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage-700">Weekly plan</p>
+      <h1 class="mt-2 text-4xl font-semibold tracking-tight text-ink md:text-5xl">{weekRange}</h1>
+      <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">
+        Six cooking days, one flex day. Tap any meal to open the full recipe. Macros below add up the whole week.
+      </p>
+      <dl class="mt-8 grid max-w-3xl grid-cols-2 gap-6 text-sm md:grid-cols-4">
+        <div class="rounded-2xl border border-sage-100 bg-cream-50 p-4">
+          <dt class="text-ink-muted">Avg. calories/day</dt>
+          <dd class="mt-1 text-2xl font-semibold text-ink">{avgDayCals.toLocaleString()}</dd>
+        </div>
+        <div class="rounded-2xl border border-sage-100 bg-cream-50 p-4">
+          <dt class="text-ink-muted">Total protein</dt>
+          <dd class="mt-1 text-2xl font-semibold text-ink">{totalProtein} g</dd>
+        </div>
+        <div class="rounded-2xl border border-sage-100 bg-cream-50 p-4">
+          <dt class="text-ink-muted">Total carbs</dt>
+          <dd class="mt-1 text-2xl font-semibold text-ink">{totalCarbs} g</dd>
+        </div>
+        <div class="rounded-2xl border border-sage-100 bg-cream-50 p-4">
+          <dt class="text-ink-muted">Total fat</dt>
+          <dd class="mt-1 text-2xl font-semibold text-ink">{totalFat} g</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-16">
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {weeklyPlan.map((day) => {
+        const cooking = Object.values(day.meals).some(Boolean);
+        return (
+          <article class:list={['rounded-2xl border bg-white p-6', cooking ? 'border-sage-100' : 'border-tan-200 bg-tan-50/40']}>
+            <header class="flex items-baseline justify-between border-b border-sage-100 pb-4">
+              <h2 class="text-xl font-semibold text-ink">{day.day}</h2>
+              <span class="text-xs uppercase tracking-wider text-ink-muted">{day.date}</span>
+            </header>
+            {cooking ? (
+              <ul class="mt-5 space-y-5">
+                {slots.map((slot) => {
+                  const slug = day.meals[slot];
+                  const r = slug ? recipesBySlug.get(slug) : null;
+                  return (
+                    <li>
+                      <p class="text-[11px] font-semibold uppercase tracking-wider text-sage-700">{slot}</p>
+                      {r ? (
+                        <a href={`/recipes/${r.slug}`} class="mt-1 block text-base font-medium text-ink hover:text-sage-700">
+                          {r.title}
+                          <span class="mt-0.5 block text-xs font-normal text-ink-muted">{r.macros.calories} cal · {r.macros.protein}g protein</span>
+                        </a>
+                      ) : <p class="mt-1 text-ink-muted">—</p>}
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <p class="mt-5 text-sm leading-relaxed text-tan-700">{day.note}</p>
+            )}
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</Base>

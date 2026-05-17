@@ -1,0 +1,136 @@
+---
+import Base from '../layouts/Base.astro';
+import { weeklyPlan, weekRange } from '../data/plan';
+import { recipesBySlug, type Ingredient } from '../data/recipes';
+
+const slots = ['breakfast', 'lunch', 'dinner'] as const;
+
+const allIngredients: Ingredient[] = [];
+for (const day of weeklyPlan) {
+  for (const slot of slots) {
+    const slug = day.meals[slot];
+    if (!slug) continue;
+    const r = recipesBySlug.get(slug);
+    if (!r) continue;
+    allIngredients.push(...r.ingredients);
+  }
+}
+
+const aisles = [
+  { id: 'produce', label: 'Produce' },
+  { id: 'protein', label: 'Protein' },
+  { id: 'dairy', label: 'Dairy & refrigerated' },
+  { id: 'grains', label: 'Grains & wraps' },
+  { id: 'pantry', label: 'Pantry & dry goods' },
+  { id: 'frozen', label: 'Frozen' },
+] as const;
+
+type Aisle = typeof aisles[number]['id'];
+
+const grouped: Record<Aisle, { item: string; qtys: string[] }[]> = {
+  produce: [], protein: [], dairy: [], grains: [], pantry: [], frozen: [],
+};
+
+for (const i of allIngredients) {
+  const bucket = grouped[i.aisle];
+  const existing = bucket.find((b) => b.item === i.item);
+  if (existing) existing.qtys.push(i.qty);
+  else bucket.push({ item: i.item, qtys: [i.qty] });
+}
+
+for (const key of Object.keys(grouped) as Aisle[]) {
+  grouped[key].sort((a, b) => a.item.localeCompare(b.item));
+}
+
+const totalItems = Object.values(grouped).reduce((sum, list) => sum + list.length, 0);
+---
+
+<Base title="Shopping List" current="shopping" description={`Consolidated shopping list for the Plate Notes meal plan, ${weekRange}.`}>
+  <section class="border-b border-sage-100 bg-cream-100">
+    <div class="mx-auto max-w-6xl px-6 py-14 md:py-20">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage-700">Shopping list · {weekRange}</p>
+      <h1 class="mt-2 text-4xl font-semibold tracking-tight text-ink md:text-5xl">{totalItems} items, sorted by aisle</h1>
+      <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">
+        Quantities are exactly what each recipe calls for — round up where the store sells in larger packs.
+        Tap an item to cross it off as you shop.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <button type="button" data-print class="rounded-full border border-sage-300 bg-cream-50 px-5 py-2.5 text-sm font-semibold text-sage-800 transition-colors hover:border-sage-500 hover:bg-cream-100">
+          Print list
+        </button>
+        <button type="button" data-reset class="rounded-full bg-sage-700 px-5 py-2.5 text-sm font-semibold text-cream-50 transition-colors hover:bg-sage-800">
+          Reset
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-16">
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {aisles.map((aisle) => {
+        const items = grouped[aisle.id];
+        if (items.length === 0) return null;
+        return (
+          <section class="rounded-2xl border border-sage-100 bg-white p-6">
+            <h2 class="text-xs font-semibold uppercase tracking-[0.18em] text-sage-700">{aisle.label}</h2>
+            <ul class="mt-4 divide-y divide-sage-100">
+              {items.map((entry) => (
+                <li>
+                  <label class="flex cursor-pointer items-start gap-3 py-3 text-sm">
+                    <input
+                      type="checkbox"
+                      class="mt-1 h-4 w-4 flex-none rounded border-sage-300 text-sage-700 focus:ring-sage-600"
+                      data-shop-item
+                    />
+                    <span class="flex-1">
+                      <span class="block text-ink shop-item-text">{entry.item}</span>
+                      <span class="mt-0.5 block text-xs text-ink-muted">{entry.qtys.join(' + ')}</span>
+                    </span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </section>
+        );
+      })}
+    </div>
+  </section>
+</Base>
+
+<style>
+  input[data-shop-item]:checked ~ span .shop-item-text {
+    text-decoration: line-through;
+    color: var(--color-ink-muted);
+  }
+  @media print {
+    header, footer, button { display: none !important; }
+    body { background: white; }
+    section { break-inside: avoid; }
+  }
+</style>
+
+<script>
+  const checkboxes = document.querySelectorAll<HTMLInputElement>('input[data-shop-item]');
+  const STORAGE_KEY = 'platenotes-shopping-v1';
+
+  let saved: Record<string, boolean> = {};
+  try {
+    saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}');
+  } catch {}
+
+  checkboxes.forEach((box, i) => {
+    const key = String(i);
+    if (saved[key]) box.checked = true;
+    box.addEventListener('change', () => {
+      saved[key] = box.checked;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+    });
+  });
+
+  document.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+  document.querySelector('[data-reset]')?.addEventListener('click', () => {
+    checkboxes.forEach((b) => (b.checked = false));
+    localStorage.removeItem(STORAGE_KEY);
+    saved = {};
+  });
+</script>

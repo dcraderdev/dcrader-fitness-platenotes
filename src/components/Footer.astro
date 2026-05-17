@@ -1,0 +1,40 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="mt-24 border-t border-sage-100 bg-cream-100">
+  <div class="mx-auto grid max-w-6xl gap-10 px-6 py-12 md:grid-cols-3">
+    <div>
+      <p class="text-lg font-semibold text-ink">Plate Notes</p>
+      <p class="mt-2 max-w-xs text-sm leading-relaxed text-ink-muted">
+        Honest meal plans, real ingredients, and recipes that fit a normal weeknight.
+      </p>
+    </div>
+    <nav aria-label="Footer">
+      <p class="text-xs font-semibold uppercase tracking-wider text-sage-700">Explore</p>
+      <ul class="mt-3 space-y-2 text-sm">
+        <li><a href="/plan" class="text-ink-soft hover:text-sage-700">This week's plan</a></li>
+        <li><a href="/recipes" class="text-ink-soft hover:text-sage-700">Recipe library</a></li>
+        <li><a href="/shopping-list" class="text-ink-soft hover:text-sage-700">Shopping list</a></li>
+        <li><a href="/about" class="text-ink-soft hover:text-sage-700">About</a></li>
+        <li><a href="/accessibility" class="text-ink-soft hover:text-sage-700">Accessibility</a></li>
+      </ul>
+    </nav>
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-wider text-sage-700">Contact</p>
+      <p class="mt-3 text-sm text-ink-soft">
+        Questions, feedback, or recipe requests:
+        <br/>
+        <a href="mailto:hello@platenotes.dcrader.dev" class="underline decoration-sage-300 underline-offset-4 hover:text-sage-700">hello@platenotes.dcrader.dev</a>
+      </p>
+      <p class="mt-3 text-sm text-ink-muted">
+        Accessibility:
+        <a href="mailto:accessibility@platenotes.dcrader.dev" class="underline decoration-sage-300 underline-offset-4 hover:text-sage-700">accessibility@platenotes.dcrader.dev</a>
+      </p>
+    </div>
+  </div>
+  <div class="border-t border-sage-200/60">
+    <p class="mx-auto max-w-6xl px-6 py-5 text-xs text-ink-muted">
+      &copy; {year} Plate Notes. A demo project by dcrader.dev. Recipes are for informational purposes and are not medical advice.
+    </p>
+  </div>
+</footer>

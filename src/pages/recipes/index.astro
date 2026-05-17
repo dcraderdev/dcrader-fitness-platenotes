@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import RecipeCard from '../../components/RecipeCard.astro';
+import { recipes } from '../../data/recipes';
+
+const grouped = {
+  breakfast: recipes.filter((r) => r.slot === 'breakfast'),
+  lunch: recipes.filter((r) => r.slot === 'lunch'),
+  dinner: recipes.filter((r) => r.slot === 'dinner'),
+};
+---
+
+<Base title="Recipe Library" current="recipes" description="Every recipe in the Plate Notes library — breakfasts, lunches, and dinners with full macros and shopping lists.">
+  <section class="border-b border-sage-100 bg-cream-100">
+    <div class="mx-auto max-w-6xl px-6 py-14 md:py-20">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage-700">Recipe library</p>
+      <h1 class="mt-2 text-4xl font-semibold tracking-tight text-ink md:text-5xl">{recipes.length} recipes worth cooking</h1>
+      <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">
+        Every recipe lists its full ingredient quantities and macros — no hidden serving-size math, no upsells.
+      </p>
+    </div>
+  </section>
+
+  {(['breakfast', 'lunch', 'dinner'] as const).map((slot, idx) => (
+    <section class:list={['mx-auto max-w-6xl px-6', idx === 0 ? 'pt-16' : 'pt-12', 'pb-4']}>
+      <h2 class="text-2xl font-semibold tracking-tight text-ink capitalize">{slot}</h2>
+      <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {grouped[slot].map((recipe, i) => (
+          <RecipeCard recipe={recipe} eager={idx === 0 && i < 3} />
+        ))}
+      </div>
+    </section>
+  ))}
+  <div class="h-16"></div>
+</Base>

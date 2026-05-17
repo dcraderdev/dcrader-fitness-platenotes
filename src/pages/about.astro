@@ -1,0 +1,68 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import portrait from '../assets/food/author-portrait.jpg';
+---
+
+<Base title="About" current="about" description="The person behind Plate Notes and how the weekly plans are built.">
+  <section class="border-b border-sage-100 bg-cream-100">
+    <div class="mx-auto max-w-4xl px-6 py-14 md:py-20">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage-700">About</p>
+      <h1 class="mt-2 text-4xl font-semibold tracking-tight text-ink md:text-5xl">Real food, on a real schedule.</h1>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-soft">
+        Plate Notes is a weekly meal plan published every Sunday. No app to download, no subscription, no calorie obsession — just a thoughtful menu and a shopping list that respects your time.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto grid max-w-4xl gap-12 px-6 py-16 md:grid-cols-[1fr_1.6fr]">
+    <div>
+      <div class="overflow-hidden rounded-3xl shadow-[0_30px_60px_-30px_rgba(56,70,47,0.45)]">
+        <Picture
+          src={portrait}
+          alt="A wooden cutting board with bowls of fresh herbs, roasted vegetables, and grains — a typical Plate Notes meal in progress."
+          formats={['avif', 'webp']}
+          widths={[360, 540, 720]}
+          sizes="(min-width: 768px) 35vw, 90vw"
+          loading="eager"
+          class="h-full w-full object-cover"
+        />
+      </div>
+      <p class="mt-3 text-xs text-ink-muted">From the Plate Notes kitchen — a typical mid-week mise en place.</p>
+    </div>
+    <div class="space-y-5 text-base leading-relaxed text-ink-soft">
+      <p>
+        <span class="font-semibold text-ink">I'm Iris Halverson</span>, a Registered Dietitian Nutritionist based in the Pacific Northwest. I spent eight years in clinical practice — three at a hospital outpatient clinic, five in private practice — before starting Plate Notes in 2024.
+      </p>
+      <p>
+        The pattern I kept seeing: people didn't need another app. They needed someone to take Sunday's blank-page anxiety off their plate. So I started writing weekly plans for my clients, with proper grocery lists and macros that actually added up. Plate Notes is that same notebook, made public.
+      </p>
+      <p>
+        Every plan goes through a few rules. Each recipe is something I cook myself. Ingredients overlap across the week so nothing wilts in the back of the fridge. Sunday is always a flex day — leftovers, a long walk, a real meal out if you want one. And the macros listed are honest: weighed, calculated, double-checked.
+      </p>
+      <p>
+        If something here helps you sit down to a meal you're glad you cooked, I've done my job.
+      </p>
+      <div class="rounded-2xl border border-sage-100 bg-cream-100 p-5 text-sm">
+        <p class="text-xs font-semibold uppercase tracking-wider text-sage-700">Credentials & training</p>
+        <ul class="mt-2 list-disc space-y-1 pl-5 text-ink-soft">
+          <li>RDN, Commission on Dietetic Registration (2016)</li>
+          <li>MS, Nutrition Science — Bastyr University</li>
+          <li>Member, Academy of Nutrition and Dietetics</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 pb-20">
+    <div class="rounded-2xl border border-sage-100 bg-white p-8 text-center">
+      <h2 class="text-2xl font-semibold tracking-tight text-ink">Have a question or a recipe request?</h2>
+      <p class="mx-auto mt-3 max-w-xl text-ink-soft">
+        I read every email. If a meal doesn't fit your diet or budget, tell me — I'll either swap it in a future week or write a substitution note.
+      </p>
+      <a href="mailto:hello@platenotes.dcrader.dev" class="mt-6 inline-flex rounded-full bg-sage-700 px-6 py-3 text-sm font-semibold text-cream-50 transition-colors hover:bg-sage-800">
+        hello@platenotes.dcrader.dev
+      </a>
+    </div>
+  </section>
+</Base>

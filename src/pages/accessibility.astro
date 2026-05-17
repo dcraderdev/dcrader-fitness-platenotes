@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Accessibility" description="Plate Notes accessibility statement and WCAG 2.2 AA conformance details.">
+  <section class="border-b border-sage-100 bg-cream-100">
+    <div class="mx-auto max-w-3xl px-6 py-14 md:py-20">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage-700">Accessibility</p>
+      <h1 class="mt-2 text-4xl font-semibold tracking-tight text-ink md:text-5xl">Accessibility statement</h1>
+      <p class="mt-4 text-sm text-ink-muted">Last updated: 2026-05-17</p>
+    </div>
+  </section>
+
+  <article class="mx-auto max-w-3xl space-y-6 px-6 py-16 text-base leading-relaxed text-ink-soft">
+    <p>
+      Plate Notes is committed to making this site usable by the widest possible audience, regardless of ability or assistive technology. We target conformance with the <a class="text-sage-700 underline decoration-sage-300 underline-offset-4 hover:text-sage-800" href="https://www.w3.org/TR/WCAG22/">Web Content Accessibility Guidelines (WCAG) 2.2 at Level AA</a>.
+    </p>
+
+    <h2 class="pt-4 text-xl font-semibold text-ink">What we do</h2>
+    <ul class="list-disc space-y-2 pl-6">
+      <li>All page content is reachable by keyboard, with a visible focus indicator on every interactive element.</li>
+      <li>Color contrast meets or exceeds WCAG AA ratios (4.5:1 body, 3:1 large text and UI components).</li>
+      <li>Every image has descriptive alt text. Decorative images are marked <code>aria-hidden</code>.</li>
+      <li>Pages have a logical heading order (single <code>h1</code> per page) and use semantic HTML landmarks.</li>
+      <li>A skip-to-content link is the first focusable element on every page.</li>
+      <li>No content depends on motion, autoplay, scroll-triggered animation, or content-visibility gating.</li>
+      <li>Forms and interactive controls have visible, programmatic labels.</li>
+    </ul>
+
+    <h2 class="pt-4 text-xl font-semibold text-ink">Known limitations</h2>
+    <p>
+      We test against axe DevTools, WAVE, and Lighthouse on every release. If you find a barrier that isn't documented here, please email us — we treat accessibility regressions as critical bugs.
+    </p>
+
+    <h2 class="pt-4 text-xl font-semibold text-ink">Contact</h2>
+    <p>
+      Email <a class="text-sage-700 underline decoration-sage-300 underline-offset-4 hover:text-sage-800" href="mailto:accessibility@platenotes.dcrader.dev">accessibility@platenotes.dcrader.dev</a> to report a barrier or request content in an alternative format. We aim to respond within two business days.
+    </p>
+  </article>
+</Base>
