@@ -30,27 +30,26 @@ const featuredRecipes = recipes.slice(0, 3);
             Browse recipes
           </a>
         </div>
-        <dl class="mt-10 max-w-md flex flex-wrap gap-x-6 gap-y-3 text-sm">
-          <div class="flex items-baseline gap-2">
-            <dt class="text-ink-muted">Days planned</dt>
-            <dd class="text-base font-semibold text-ink tabular-nums">6</dd>
+        <div class="mt-10 max-w-md rounded-2xl border border-sage-100 bg-cream-50/80 p-4">
+          <div class="flex items-center justify-between">
+            <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-sage-700">On the plate &mdash; Mon</p>
+            <a href={`/recipes/${previewDays[0].meals.dinner}`} class="text-[11px] font-semibold text-sage-700 hover:underline underline-offset-2">Open recipe &rarr;</a>
           </div>
-          <span class="text-sage-300" aria-hidden="true">·</span>
-          <div class="flex items-baseline gap-2">
-            <dt class="text-ink-muted">Pantry list</dt>
-            <dd class="text-base font-semibold text-ink">printable</dd>
-          </div>
-          <span class="text-sage-300" aria-hidden="true">·</span>
-          <div class="flex items-baseline gap-2">
-            <dt class="text-ink-muted">Leftovers</dt>
-            <dd class="text-base font-semibold text-ink">built in</dd>
-          </div>
-          <span class="text-sage-300" aria-hidden="true">·</span>
-          <div class="flex items-baseline gap-2">
-            <dt class="text-ink-muted">No app</dt>
-            <dd class="text-base font-semibold text-ink">just a page</dd>
-          </div>
-        </dl>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li class="flex items-center gap-3">
+              <span class="inline-flex h-6 w-12 items-center justify-center rounded-full bg-sage-100 text-[10px] font-semibold uppercase tracking-wider text-sage-700">B</span>
+              <span class="text-ink">{recipesBySlug.get(previewDays[0].meals.breakfast!)?.title}</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="inline-flex h-6 w-12 items-center justify-center rounded-full bg-sage-100 text-[10px] font-semibold uppercase tracking-wider text-sage-700">L</span>
+              <span class="text-ink">{recipesBySlug.get(previewDays[0].meals.lunch!)?.title}</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="inline-flex h-6 w-12 items-center justify-center rounded-full bg-sage-700 text-[10px] font-semibold uppercase tracking-wider text-cream-50">D</span>
+              <span class="text-ink font-medium">{recipesBySlug.get(previewDays[0].meals.dinner!)?.title}</span>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="relative">
         <div class="overflow-hidden rounded-3xl shadow-[0_30px_60px_-30px_rgba(56,70,47,0.45)]">
@@ -65,10 +64,34 @@ const featuredRecipes = recipes.slice(0, 3);
             class="h-full w-full object-cover"
           />
         </div>
-        <div class="absolute -bottom-6 -left-6 hidden rounded-2xl border border-sage-100 bg-cream-50 px-5 py-4 shadow-lg md:block">
-          <p class="text-xs uppercase tracking-wider text-sage-700">This week's calories</p>
-          <p class="mt-1 text-2xl font-semibold text-ink">~1,920 / day</p>
-          <p class="text-xs text-ink-muted">Balanced across 3 meals</p>
+        <div class="absolute -bottom-6 -left-6 hidden w-64 rounded-2xl border border-sage-100 bg-cream-50 p-4 shadow-lg md:block" role="figure" aria-label="Shopping list — auto-generated">
+          <div class="flex items-center justify-between">
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-sage-700">Shopping list</p>
+            <p class="text-[10px] text-ink-muted">auto &middot; 18 items</p>
+          </div>
+          <ul class="mt-3 space-y-1.5 text-sm font-medium">
+            <li class="flex items-center gap-2 text-ink-muted line-through">
+              <span class="inline-block h-4 w-4 rounded border border-sage-400 bg-sage-700 flex items-center justify-center text-cream-50 text-[10px] leading-none">&check;</span>
+              Salmon &middot; 1 lb
+            </li>
+            <li class="flex items-center gap-2 text-ink-muted line-through">
+              <span class="inline-block h-4 w-4 rounded border border-sage-400 bg-sage-700 flex items-center justify-center text-cream-50 text-[10px] leading-none">&check;</span>
+              Asparagus &middot; 1 bunch
+            </li>
+            <li class="flex items-center gap-2 text-ink">
+              <span class="inline-block h-4 w-4 rounded border border-sage-400 bg-cream-50"></span>
+              Avocados &middot; 3
+            </li>
+            <li class="flex items-center gap-2 text-ink">
+              <span class="inline-block h-4 w-4 rounded border border-sage-400 bg-cream-50"></span>
+              Farro &middot; 1 cup
+            </li>
+            <li class="flex items-center gap-2 text-ink">
+              <span class="inline-block h-4 w-4 rounded border border-sage-400 bg-cream-50"></span>
+              Lemons &middot; 2
+            </li>
+          </ul>
+          <p class="mt-3 text-[10px] text-ink-muted">+13 more &middot; built from this week's plan</p>
         </div>
       </div>
     </div>
