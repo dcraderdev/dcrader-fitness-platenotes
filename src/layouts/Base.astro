@@ -14,6 +14,7 @@ interface Props {
 const { title, description, current, preloadImage } = Astro.props;
 const fullTitle = title === 'Plate Notes' ? title : `${title} · Plate Notes`;
 const desc = description ?? 'Honest weekly meal plans, real recipes, and a shopping list that fits a normal Sunday afternoon.';
+const ogImage = new URL('/og-image.png', Astro.site).toString();
 ---
 
 <!doctype html>
@@ -28,6 +29,11 @@ const desc = description ?? 'Honest weekly meal plans, real recipes, and a shopp
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={desc} />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={desc} />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {preloadImage && (
       <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />
