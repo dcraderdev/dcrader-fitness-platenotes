@@ -33,6 +33,10 @@ const desc = description ?? 'Honest weekly meal plans, real recipes, and a shopp
       <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />
     )}
     <script src="/template-topheader.js" defer></script>
+    <style>
+      /* Offset for portfolio bar (#dcrader-th, 34px fixed top:0) injected by template-topheader.js */
+      body { padding-top: 34px; }
+    </style>
   </head>
   <body class="min-h-screen text-ink">
     <a href="#main" class="skip-link">Skip to main content</a>
