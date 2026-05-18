@@ -30,18 +30,25 @@ const featuredRecipes = recipes.slice(0, 3);
             Browse recipes
           </a>
         </div>
-        <dl class="mt-10 grid max-w-md grid-cols-3 gap-6 text-sm">
-          <div>
-            <dt class="text-ink-muted">Recipes</dt>
-            <dd class="mt-1 text-2xl font-semibold text-ink">{recipes.length}</dd>
+        <dl class="mt-10 max-w-md flex flex-wrap gap-x-6 gap-y-3 text-sm">
+          <div class="flex items-baseline gap-2">
+            <dt class="text-ink-muted">Days planned</dt>
+            <dd class="text-base font-semibold text-ink tabular-nums">6</dd>
           </div>
-          <div>
-            <dt class="text-ink-muted">Avg. prep</dt>
-            <dd class="mt-1 text-2xl font-semibold text-ink">22 min</dd>
+          <span class="text-sage-300" aria-hidden="true">·</span>
+          <div class="flex items-baseline gap-2">
+            <dt class="text-ink-muted">Pantry list</dt>
+            <dd class="text-base font-semibold text-ink">printable</dd>
           </div>
-          <div>
-            <dt class="text-ink-muted">Macros tracked</dt>
-            <dd class="mt-1 text-2xl font-semibold text-ink">Every meal</dd>
+          <span class="text-sage-300" aria-hidden="true">·</span>
+          <div class="flex items-baseline gap-2">
+            <dt class="text-ink-muted">Leftovers</dt>
+            <dd class="text-base font-semibold text-ink">built in</dd>
+          </div>
+          <span class="text-sage-300" aria-hidden="true">·</span>
+          <div class="flex items-baseline gap-2">
+            <dt class="text-ink-muted">No app</dt>
+            <dd class="text-base font-semibold text-ink">just a page</dd>
           </div>
         </dl>
       </div>
