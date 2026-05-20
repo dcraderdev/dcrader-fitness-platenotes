@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Page not found" description="The page you were looking for isn't on this week's menu.">
+  <section class="bg-cream-100">
+    <div class="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center px-6 py-24 text-center">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage-700">Off the plan</p>
+      <h1 class="mt-4 text-[7rem] font-semibold leading-none tracking-tight text-sage-700 md:text-[10rem]">
+        404
+      </h1>
+      <h2 class="mt-4 text-3xl font-semibold tracking-tight text-ink md:text-4xl">
+        Page not found
+      </h2>
+      <p class="mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">
+        This one isn't on this week's menu. The link may have changed, or the recipe got swapped out. Head back to the kitchen and we'll point you at something good.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-3">
+        <a href="/" class="rounded-full bg-sage-700 px-6 py-3 text-sm font-semibold text-cream-50 transition-colors hover:bg-sage-800">
+          Back to home
+        </a>
+        <a href="/recipes" class="rounded-full border border-sage-300 bg-cream-50 px-6 py-3 text-sm font-semibold text-sage-800 transition-colors hover:border-sage-500 hover:bg-cream-100">
+          Browse recipes
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>
