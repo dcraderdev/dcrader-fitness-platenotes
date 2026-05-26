@@ -1,0 +1,342 @@
+---
+import Base from '../layouts/Base.astro';
+
+const pageTitle = 'Pricing';
+const pageDescription =
+  'Plate Notes pricing — the Free plan, the Pro plan, and what each one gets you. A clean comparison, plain English, no asterisks.';
+
+type Row = {
+  label: string;
+  free: string | true | false;
+  pro: string | true | false;
+  detail?: string;
+};
+
+const features: { group: string; rows: Row[] }[] = [
+  {
+    group: 'Weekly plan',
+    rows: [
+      { label: 'A new six-day plan, every Sunday', free: true, pro: true, detail: 'Published at 6am Pacific. Read it in five minutes.' },
+      { label: 'Auto-generated shopping list', free: true, pro: true, detail: 'Sorted by aisle, scaled to your household.' },
+      { label: 'Swap any meal for another from the library', free: '3 per week', pro: 'Unlimited', detail: 'Free plan resets the swap count on Sunday.' },
+      { label: 'Skip a day (rollover ingredients)', free: false, pro: true, detail: 'Pro auto-shifts the rest of the week and re-totals the list.' },
+      { label: 'Save the week as a printable PDF', free: false, pro: true, detail: 'One-page card for the fridge, full version for the cookbook.' },
+    ],
+  },
+  {
+    group: 'Recipes & nutrition',
+    rows: [
+      { label: 'Full recipe library, no paywall on individual pages', free: true, pro: true, detail: 'Every recipe always free to read, cook, and screenshot.' },
+      { label: 'Macros and calorie totals per recipe', free: true, pro: true },
+      { label: 'Macros and calorie totals per day & week', free: false, pro: true, detail: 'Rolled up automatically as your plan changes.' },
+      { label: 'Filter library by ingredient, time, or dietary tag', free: true, pro: true },
+      { label: 'Personal cookbook (save recipes for later)', free: 'Up to 12 saved', pro: 'Unlimited' },
+      { label: 'Notes and ratings on saved recipes', free: false, pro: true },
+    ],
+  },
+  {
+    group: 'Household & scaling',
+    rows: [
+      { label: 'Scale a week to your household size', free: '1–2 people', pro: '1–6 people' },
+      { label: 'Per-person dietary profiles', free: false, pro: true, detail: 'One vegetarian, one nut-allergic, one trying to hit 130g protein — the plan respects all three.' },
+      { label: 'Leftover-aware planning', free: false, pro: true, detail: 'Pro turns Tuesday\'s lentils into Wednesday\'s lunch automatically.' },
+    ],
+  },
+  {
+    group: 'Shopping list',
+    rows: [
+      { label: 'Web version of the shopping list', free: true, pro: true },
+      { label: 'Send the list to AnyList, Reminders, or email', free: false, pro: true },
+      { label: 'Check off items as you shop', free: true, pro: true, detail: 'Syncs across devices in real time on both plans.' },
+      { label: 'Pantry-aware list (subtract what you already have)', free: false, pro: true, detail: 'A simple checklist of what\'s in your kitchen, deducted before the list is built.' },
+    ],
+  },
+  {
+    group: 'Account & support',
+    rows: [
+      { label: 'Read-only sharing with a partner', free: true, pro: true },
+      { label: 'Two-way editing with a partner or roommate', free: false, pro: true },
+      { label: 'Customer support response time', free: '5 business days', pro: '1 business day' },
+      { label: 'Cancel anytime, no haggling', free: true, pro: true, detail: 'One click in your account page. No retention emails.' },
+    ],
+  },
+];
+
+function cell(v: string | true | false) {
+  if (v === true) return { kind: 'yes' as const, text: 'Included' };
+  if (v === false) return { kind: 'no' as const, text: 'Not included' };
+  return { kind: 'detail' as const, text: v };
+}
+---
+
+<Base title={pageTitle} current="pricing" description={pageDescription}>
+
+  <!-- HEADER -->
+  <section class="bg-cream-100">
+    <div class="mx-auto max-w-5xl px-6 py-16 sm:py-20 text-center">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage-700">Pricing</p>
+      <h1 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-tight text-ink md:text-5xl lg:text-6xl">
+        Free if you cook for one or two.<br/>
+        <span class="text-sage-700">Pro if you cook for the table.</span>
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
+        Plate Notes is built so the weekly plan, every recipe, and the basic shopping list
+        are free, forever. Pro adds the features a busy household actually pays for —
+        scaling, leftovers, dietary profiles, and the small conveniences that turn the
+        week from a project into a habit.
+      </p>
+    </div>
+  </section>
+
+  <!-- TWO-PLAN CARDS -->
+  <section class="mx-auto max-w-5xl px-6 -mt-6 sm:-mt-10 pb-16">
+    <div class="grid gap-6 md:grid-cols-2">
+      <!-- FREE -->
+      <article class="rounded-3xl border border-sage-100 bg-white p-7 sm:p-8 shadow-sm">
+        <header class="border-b border-sage-100 pb-5">
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage-700">For most readers</p>
+          <h2 class="mt-2 text-2xl font-semibold tracking-tight text-ink">Free</h2>
+          <p class="mt-3 text-4xl font-semibold text-ink tabular-nums">
+            $0
+            <span class="text-base font-medium text-ink-muted">/ forever</span>
+          </p>
+          <p class="mt-3 text-sm text-ink-soft leading-relaxed">
+            The published weekly plan, the full recipe library, and a shopping list that
+            scales to one or two people. The plan we use ourselves until the household
+            grows past two.
+          </p>
+        </header>
+        <ul class="mt-6 space-y-3 text-sm text-ink leading-relaxed">
+          <li class="flex gap-3"><span class="mt-1 inline-block h-2 w-2 flex-none rounded-full bg-sage-500" aria-hidden="true"></span><span>A new six-day plan every Sunday, free to read and cook</span></li>
+          <li class="flex gap-3"><span class="mt-1 inline-block h-2 w-2 flex-none rounded-full bg-sage-500" aria-hidden="true"></span><span>Every recipe in the library, never behind a paywall</span></li>
+          <li class="flex gap-3"><span class="mt-1 inline-block h-2 w-2 flex-none rounded-full bg-sage-500" aria-hidden="true"></span><span>Auto-generated shopping list, sorted by aisle, scaled to 1 or 2 people</span></li>
+          <li class="flex gap-3"><span class="mt-1 inline-block h-2 w-2 flex-none rounded-full bg-sage-500" aria-hidden="true"></span><span>Up to three meal swaps per week, twelve saved recipes</span></li>
+          <li class="flex gap-3"><span class="mt-1 inline-block h-2 w-2 flex-none rounded-full bg-sage-500" aria-hidden="true"></span><span>Read-only sharing with a partner or roommate</span></li>
+        </ul>
+        <a href="/plan" class="mt-7 inline-flex w-full justify-center rounded-full border border-sage-300 bg-cream-50 px-6 py-3 text-sm font-semibold text-sage-800 transition-colors hover:border-sage-500 hover:bg-cream-100">
+          Open this week's plan
+        </a>
+      </article>
+
+      <!-- PRO -->
+      <article class="relative rounded-3xl border-2 border-sage-700 bg-gradient-to-br from-sage-50 to-cream-50 p-7 sm:p-8 shadow-lg">
+        <span class="absolute -top-3 left-7 inline-flex items-center rounded-full bg-sage-700 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-cream-50">For households</span>
+        <header class="border-b border-sage-200 pb-5">
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage-700">For three plates and up</p>
+          <h2 class="mt-2 text-2xl font-semibold tracking-tight text-ink">Pro</h2>
+          <p class="mt-3 text-4xl font-semibold text-ink tabular-nums">
+            $6
+            <span class="text-base font-medium text-ink-muted">/ month</span>
+          </p>
+          <p class="text-xs text-ink-muted mt-0.5">or $54 / year — two months free, billed annually</p>
+          <p class="mt-3 text-sm text-ink-soft leading-relaxed">
+            Everything in Free, plus the household-shaped features: scaling up to six,
+            per-person dietary profiles, leftover-aware planning, and the integrations that
+            keep the week running when it gets busy.
+          </p>
+        </header>
+        <ul class="mt-6 space-y-3 text-sm text-ink leading-relaxed">
+          <li class="flex gap-3"><span class="mt-1 inline-block h-2 w-2 flex-none rounded-full bg-sage-700" aria-hidden="true"></span><span>Scale any week to a household of 3, 4, 5, or 6 — automatically</span></li>
+          <li class="flex gap-3"><span class="mt-1 inline-block h-2 w-2 flex-none rounded-full bg-sage-700" aria-hidden="true"></span><span>Per-person dietary profiles (vegetarian, allergy, macro targets)</span></li>
+          <li class="flex gap-3"><span class="mt-1 inline-block h-2 w-2 flex-none rounded-full bg-sage-700" aria-hidden="true"></span><span>Leftover-aware planning that uses Tuesday's lentils on Wednesday</span></li>
+          <li class="flex gap-3"><span class="mt-1 inline-block h-2 w-2 flex-none rounded-full bg-sage-700" aria-hidden="true"></span><span>Send the shopping list to AnyList, Reminders, or email</span></li>
+          <li class="flex gap-3"><span class="mt-1 inline-block h-2 w-2 flex-none rounded-full bg-sage-700" aria-hidden="true"></span><span>Pantry-aware list (subtract what you already have on hand)</span></li>
+          <li class="flex gap-3"><span class="mt-1 inline-block h-2 w-2 flex-none rounded-full bg-sage-700" aria-hidden="true"></span><span>Unlimited saved recipes, unlimited swaps, printable PDFs</span></li>
+          <li class="flex gap-3"><span class="mt-1 inline-block h-2 w-2 flex-none rounded-full bg-sage-700" aria-hidden="true"></span><span>Two-way editing with one household member</span></li>
+        </ul>
+        <a href="/plan" class="mt-7 inline-flex w-full justify-center rounded-full bg-sage-700 px-6 py-3 text-sm font-semibold text-cream-50 transition-colors hover:bg-sage-800">
+          Start a 14-day Pro trial
+        </a>
+        <p class="mt-2 text-center text-[11px] text-ink-muted">No card required for trial. Cancel in one click.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- DETAILED COMPARISON -->
+  <section class="mx-auto max-w-5xl px-6 pb-20">
+    <div class="text-center">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage-700">Side by side</p>
+      <h2 class="mt-2 text-3xl font-semibold tracking-tight text-ink md:text-4xl">Every difference, line by line</h2>
+      <p class="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-ink-soft">
+        We are bad at hiding features behind euphemisms. Here is the full comparison.
+        If a feature is in Free, it is the same feature you would pay for in Pro —
+        not a stripped-down version pretending to be the real one.
+      </p>
+    </div>
+
+    <div class="mt-10 space-y-10">
+      {features.map((group) => (
+        <div class="overflow-hidden rounded-2xl border border-sage-100 bg-white">
+          <header class="border-b border-sage-100 bg-cream-100 px-5 py-3.5">
+            <h3 class="text-sm font-semibold uppercase tracking-[0.15em] text-sage-700">{group.group}</h3>
+          </header>
+          <div class="hidden md:grid grid-cols-[1.6fr_1fr_1fr] gap-0 text-sm">
+            <div class="px-5 py-3 text-[11px] font-semibold uppercase tracking-widest text-ink-muted border-b border-sage-100">Feature</div>
+            <div class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest text-ink-muted border-b border-l border-sage-100">Free</div>
+            <div class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-widest text-sage-700 border-b border-l border-sage-100">Pro</div>
+            {group.rows.map((row) => {
+              const f = cell(row.free);
+              const p = cell(row.pro);
+              return (
+                <>
+                  <div class="px-5 py-4 border-b border-sage-100/70">
+                    <p class="font-medium text-ink leading-snug">{row.label}</p>
+                    {row.detail && <p class="mt-1 text-xs text-ink-muted leading-relaxed">{row.detail}</p>}
+                  </div>
+                  <div class="px-5 py-4 border-b border-l border-sage-100/70 text-center">
+                    {f.kind === 'yes' && <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-sage-100 text-sage-700" aria-label="Included">✓</span>}
+                    {f.kind === 'no' && <span class="inline-block text-ink-muted" aria-label="Not included">—</span>}
+                    {f.kind === 'detail' && <span class="text-sm text-ink">{f.text}</span>}
+                  </div>
+                  <div class="px-5 py-4 border-b border-l border-sage-100/70 text-center">
+                    {p.kind === 'yes' && <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-sage-700 text-cream-50" aria-label="Included">✓</span>}
+                    {p.kind === 'no' && <span class="inline-block text-ink-muted" aria-label="Not included">—</span>}
+                    {p.kind === 'detail' && <span class="text-sm font-medium text-ink">{p.text}</span>}
+                  </div>
+                </>
+              );
+            })}
+          </div>
+          <!-- Mobile stacked -->
+          <ul class="md:hidden divide-y divide-sage-100 text-sm">
+            {group.rows.map((row) => {
+              const f = cell(row.free);
+              const p = cell(row.pro);
+              return (
+                <li class="px-5 py-4">
+                  <p class="font-medium text-ink">{row.label}</p>
+                  {row.detail && <p class="mt-1 text-xs text-ink-muted">{row.detail}</p>}
+                  <div class="mt-3 grid grid-cols-2 gap-3 text-xs">
+                    <div class="rounded-lg bg-cream-100 px-3 py-2">
+                      <p class="text-[10px] font-semibold uppercase tracking-widest text-ink-muted">Free</p>
+                      <p class="mt-0.5 text-ink">
+                        {f.kind === 'yes' ? 'Included' : f.kind === 'no' ? '—' : f.text}
+                      </p>
+                    </div>
+                    <div class="rounded-lg bg-sage-50 px-3 py-2 ring-1 ring-sage-200">
+                      <p class="text-[10px] font-semibold uppercase tracking-widest text-sage-700">Pro</p>
+                      <p class="mt-0.5 text-ink font-medium">
+                        {p.kind === 'yes' ? 'Included' : p.kind === 'no' ? '—' : p.text}
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- WHY THE LINE IS WHERE IT IS -->
+  <section class="bg-cream-100">
+    <div class="mx-auto max-w-4xl px-6 py-16">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage-700">Why the line is where it is</p>
+      <h2 class="mt-2 text-3xl font-semibold tracking-tight text-ink md:text-4xl">A short note from the team</h2>
+      <div class="mt-6 space-y-5 text-base leading-relaxed text-ink-soft">
+        <p>
+          We wrestled with this. Plate Notes started as a free site and almost stayed that
+          way. The reason we landed on a paid tier — and the reason Pro is priced at six
+          dollars rather than fifteen — is that the work we needed to add to make the app
+          useful for households of four or five is fundamentally more expensive to build
+          and to maintain than the work we did for households of one or two.
+        </p>
+        <p>
+          Scaling a recipe from two servings to five sounds trivial. It is not. A pot of
+          rice that took twenty minutes for two people now takes thirty for five. A roast
+          chicken that fed two as the centerpiece now needs a second one or a side that
+          stretches the protein. Leftover planning is a graph problem with a deadline.
+          Per-person dietary profiles compound combinatorially when one of the people in
+          the household is vegetarian, one is nut-allergic, and one is trying to land on a
+          macro target. We built those features because they are the ones a household
+          asked us for, and the price of Pro is what it takes to keep building them.
+        </p>
+        <p>
+          The Free tier is not a trial. It is a complete, useful product that the two of us
+          use most weeks. The Pro tier is an honest upgrade for people whose week is bigger
+          than ours. The line between the two is supposed to be obvious — if you find
+          yourself working around a free-tier limit twice a month, Pro will save you the
+          hour and earn the six dollars. If you don't, please stay on Free with our blessing.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="mx-auto max-w-4xl px-6 py-16">
+    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage-700">Questions before you upgrade</p>
+    <h2 class="mt-2 text-3xl font-semibold tracking-tight text-ink md:text-4xl">A few common ones</h2>
+    <dl class="mt-8 divide-y divide-sage-100">
+      <div class="py-6">
+        <dt class="text-lg font-semibold text-ink">Can I downgrade from Pro back to Free?</dt>
+        <dd class="mt-2 text-base text-ink-soft leading-relaxed">
+          Yes, any time, no questions. Your saved recipes stay; if you have more than twelve
+          saved, they are preserved but read-only until you trim the list to the free limit
+          or upgrade again. Your dietary profiles and household size revert to the free
+          defaults — you can set them again the next time you upgrade.
+        </dd>
+      </div>
+      <div class="py-6">
+        <dt class="text-lg font-semibold text-ink">Do you have a student or non-profit discount?</dt>
+        <dd class="mt-2 text-base text-ink-soft leading-relaxed">
+          Yes — Pro is free for full-time students with a verified .edu address, and free
+          for non-profit dietitians, school food services, and community kitchens. Email
+          us with proof and we'll set it up by hand. No web form, no automated approvals.
+        </dd>
+      </div>
+      <div class="py-6">
+        <dt class="text-lg font-semibold text-ink">Is there a family plan?</dt>
+        <dd class="mt-2 text-base text-ink-soft leading-relaxed">
+          One Pro subscription covers one household, no matter how many devices or how
+          many adults are editing the plan. We do not sell per-seat. If your household has
+          more than two adults editing the plan, write us and we'll set up shared access.
+        </dd>
+      </div>
+      <div class="py-6">
+        <dt class="text-lg font-semibold text-ink">What happens to my data if I cancel?</dt>
+        <dd class="mt-2 text-base text-ink-soft leading-relaxed">
+          It stays in your account on the Free tier. If you delete the account entirely,
+          we purge everything within 30 days — no resurrection emails, no shadow profile.
+          You can export a JSON of everything you have ever saved before you delete.
+        </dd>
+      </div>
+      <div class="py-6">
+        <dt class="text-lg font-semibold text-ink">Why no AI meal planner?</dt>
+        <dd class="mt-2 text-base text-ink-soft leading-relaxed">
+          Because the plan is good when it's edited by a person who cooks for a living, and
+          mediocre when it's generated by a model that has eaten paragraphs of recipe text
+          rather than dinner. Our weekly plan is hand-built; Pro features automate the
+          mechanical parts (scaling, leftovers, lists) around it. If that ever stops being
+          the right call, we'll tell you and reverse course — not slide it in under a new
+          name.
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <!-- BOTTOM CTA -->
+  <section class="border-t border-sage-100 bg-cream-50">
+    <div class="mx-auto max-w-3xl px-6 py-16 text-center">
+      <h2 class="text-3xl font-semibold tracking-tight text-ink md:text-4xl">
+        Try Pro for two weeks. Cook through them. Decide.
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-ink-soft">
+        Fourteen days, no card. If the household features change how Sundays feel,
+        you'll know by week two — and if they don't, the free plan you came in on is
+        still here waiting.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/plan" class="inline-flex rounded-full bg-sage-700 px-6 py-3 text-sm font-semibold text-cream-50 transition-colors hover:bg-sage-800">
+          Start the trial
+        </a>
+        <a href="/recipes" class="inline-flex rounded-full border border-sage-300 bg-cream-50 px-6 py-3 text-sm font-semibold text-sage-800 transition-colors hover:border-sage-500 hover:bg-cream-100">
+          Read the recipes first
+        </a>
+      </div>
+    </div>
+  </section>
+
+</Base>
+</content>
+</invoke>
